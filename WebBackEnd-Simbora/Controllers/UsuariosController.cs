@@ -12,7 +12,7 @@ using WebBackEnd_Simbora.Models;
 
 namespace WebBackEnd_Simbora.Controllers
 {
-    [Authorize(Roles ="Cliente, Promoter")]
+    
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -98,6 +98,7 @@ namespace WebBackEnd_Simbora.Controllers
         }
 
         // GET: Usuarios/Details/5
+        [Authorize(Roles = "Promoter, Cliente")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -192,6 +193,7 @@ namespace WebBackEnd_Simbora.Controllers
         }
 
         // GET: Usuarios/Delete/5
+        [Authorize(Roles = "Promoter, Cliente")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
