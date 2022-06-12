@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using WebBackEnd_Simbora.Models;
 
 namespace WebBackEnd_Simbora.Controllers
 {
+    [Authorize]
     public class EventosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +21,15 @@ namespace WebBackEnd_Simbora.Controllers
         }
 
         // GET: Eventos
-        public async Task<IActionResult> Index()
+
+         public async Task<IActionResult> Index()
         {
             return View(await _context.Eventos.ToListAsync());
         }
 
         // GET: Eventos/Details/5
+
+        [Authorize(Roles = "Promoter")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +48,8 @@ namespace WebBackEnd_Simbora.Controllers
         }
 
         // GET: Eventos/Create
+
+        [Authorize(Roles = "Promoter")]
         public IActionResult Create()
         {
             return View();
@@ -65,6 +72,8 @@ namespace WebBackEnd_Simbora.Controllers
         }
 
         // GET: Eventos/Edit/5
+
+        [Authorize(Roles = "Promoter")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -116,6 +125,8 @@ namespace WebBackEnd_Simbora.Controllers
         }
 
         // GET: Eventos/Delete/5
+
+        [Authorize(Roles = "Promoter")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

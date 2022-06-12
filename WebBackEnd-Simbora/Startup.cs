@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +30,23 @@ namespace WebBackEnd_Simbora
             services.AddDbContext <ApplicationDbContext>(options =>
 			options.UseSqlServer(Configuration.GetConnectionString("Default"))
 		 );
-			
 
+			services.Configure<CookiePolicyOptions>(options =>
+			{
+				// This lambda determines whether user consert for non-essential cookies is needed for a given request.
+				options.CheckConsentNeeded = context => true;
+				options.MinimumSameSitePolicy = SameSiteMode.None;
+			});
 
-			services.AddControllersWithViews();
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options =>
+				{
+					options.AccessDeniedPath = "/Usuarios/AccessDenied";
+					options.LoginPath = "/Usuarios/Login/";
+
+				});
+
+		services.AddControllersWithViews();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +66,10 @@ namespace WebBackEnd_Simbora
 			app.UseStaticFiles();
 
 			app.UseRouting();
+
+			app.UseCookiePolicy();
+
+			app.UseAuthentication();
 
 			app.UseAuthorization();
 

@@ -14,7 +14,7 @@ namespace WebBackEnd_Simbora.Models
 		[Required(ErrorMessage = "Obrigatório informar o nome!")]
 		public string Nome { get; set; }
 		[Required(ErrorMessage = "Obrigatório informar a Data!")]
-		public int Data { get; set; }
+		public DateTime Data { get; set; }
 		[Required(ErrorMessage = "Obrigatório informar o Horário!")]
 
 		[Display(Name = "Horário")]
@@ -25,8 +25,10 @@ namespace WebBackEnd_Simbora.Models
 		[Display(Name = "Mais Informações")]
 		public string MaisInformacoes { get; set; }
 
-       
-		public ICollection<Comentarios> Comentario { get; set; }
+       [Display(Name = "CPF")]
+        public string CPF { get; set; }
+
+        public ICollection<Comentarios> Comentario { get; set; }
 
 
 	}
